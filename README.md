@@ -14,8 +14,6 @@ This application displays the land use/land cover (LULC) timeseries [layer](http
  - [ArcGIS API for Javascript](https://developers.arcgis.com/javascript/latest/api-reference/)
  - [Calcite Components](https://developers.arcgis.com/calcite-design-system/components/)
 
-
-
 #### For questions about the demo web application:
 > John Grayson | Prototype Specialist | Geo Experience Center\
 > Esri | 380 New York St | Redlands, CA 92373 | USA\
