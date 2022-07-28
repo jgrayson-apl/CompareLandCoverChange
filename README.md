@@ -2,10 +2,12 @@
 
 This application displays the land use/land cover (LULC) timeseries [layer](https://arcgis.com/home/item.html?id=d3da5dd386d140cf93fc9ecbf8da5e31) derived from ESA Sentinel-2 imagery at 10m resolution. The time slider can be used to advance through the five years of data from 2017-2021 and compare the change by class between any two years.
 
-**Esri Land Cover** [Sentinel-2 10-Meter Land Use/Land Cover](https://livingatlas.arcgis.com/landcover/)
+> **Esri Land Cover** [Sentinel-2 10-Meter Land Use/Land Cover](https://livingatlas.arcgis.com/landcover/)
 
-**Sources**: Impact Observatory, Microsoft, and Esri
+> **Sources**: Impact Observatory, Microsoft, and Esri
 
+### Demo 
+ - 
 
 ### Technologies Used
 
