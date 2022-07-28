@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0 maximum-scale=1.0"/>
+    <!-- META -->
+    <!--<meta property="og:title" content="">-->
+    <!--<meta property="og:description" content="">-->
+    <!--<meta property="og:image" content="https://geoxc-apps.bd.esri.com/assets/GeoXC.png">-->
+    <!--<meta property="og:url" content="https://geoxc-apps.bd.esri.com/.../index.html">-->
+    <!-- ICON -->
+    <link rel="icon" href="./assets/favicon.ico" sizes="32x32" type="image/vnd.microsoft.icon">
+    <!-- TITLE -->
+    <title class="application-title"></title>
+    
+    <!-- CHARTJS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    
+    <!-- CALCITE -->
+    <script src="https://js.arcgis.com/calcite-components/1.0.0-beta.83/calcite.esm.js" type="module"></script>
+    <link href="https://js.arcgis.com/calcite-components/1.0.0-beta.83/calcite.css" rel="stylesheet"/>
+    
+    <!-- ArcGIS API for JavaScript-->
+    <link href="https://js.arcgis.com/4.24/@arcgis/core/assets/esri/themes/dark/main.css" rel="stylesheet"/>
+    <script src="https://js.arcgis.com/4.24/"></script>
+    
+    <!-- APPLICATION -->
+    <link rel="stylesheet" type="text/css" href="./css/app-base.css"/>
+    <link rel="stylesheet" type="text/css" href="./css/application.css">
+    <script type="module" src="./js/Application.js"></script>
+  </head>
+  <body class="calcite-theme-dark calcite-theme-app">
+    
+    <calcite-shell dir="ltr">
+      
+      <header class="content-row" slot="header">
+        <h2 class="application-title"></h2>
+        
+        <div class="content-row">
+          <div id="sign-in-container"></div>
+          
+          <calcite-action-bar class="content-row" expand-disabled="true">
+            <calcite-action id="app-share-action" appearance="clear" scale="m" title="share current options..." text="share current options" icon="link" hidden></calcite-action>
+            <calcite-action id="app-details-action" appearance="clear" scale="m" title="app details..." text="app details" icon="information"></calcite-action>
+          </calcite-action-bar>
+          
+          <calcite-alert id="app-share-alert" icon="" auto-dismiss="" auto-dismiss-duration="medium" scale="m" color="green" aria-hidden="true" role="alert">
+            <div slot="message">
+              Shareable link has been copied to the clipboard.
+            </div>
+            <calcite-link id="app-share-link" slot="link" href="#" target="_blank" role="link" title="open in new tab">
+              open in new tab
+            </calcite-link>
+          </calcite-alert>
+        
+        </div>
+      </header>
+      
+      <!-- LEFT -->
+      <calcite-shell-panel slot="primary-panel" position="start" collapsed="true">
+        <calcite-action-bar slot="action-bar">
+          <calcite-action text="Sentinel-2" icon="raster-analysis" class="toggle-action" data-toggle="options"></calcite-action>
+          <calcite-action text="Location" icon="map-pin" class="toggle-action" data-toggle="location"></calcite-action>
+          <calcite-action text="Places" icon="extent" class="toggle-action" data-toggle="bookmarks"></calcite-action>
+          <calcite-action text="Urban Areas" icon="urban-model" class="toggle-action" data-toggle="urban"></calcite-action>
+        </calcite-action-bar>
+        
+        <calcite-panel heading="Sentinel-2 Layers" class="toggle-panel" data-toggle="options" hidden>
+          <calcite-action slot="header-actions-start" icon="satellite-3" scale="s"></calcite-action>
+          <div slot="header-actions-end">
+            <calcite-action icon="x" title="close panel" class="toggle-close" data-toggle="options"></calcite-action>
+          </div>
+          <div class="calcite-panel-content">
+            
+            <calcite-tabs layout="center">
+              
+              <calcite-tab-nav id="analysis-type-option" slot="tab-nav">
+                <calcite-tab-title tab="land-cover" icon-start="color-coded-map" class="padding-m" active>
+                  Land Cover
+                </calcite-tab-title>
+                <calcite-tab-title tab="imagery" icon-start="image-layer" class="padding-m">
+                  Imagery
+                </calcite-tab-title>
+              </calcite-tab-nav>
+              
+              <calcite-tab tab="land-cover">
+                
+                <div class="section-info">
+                  10m land cover time series of the world from 2017-2021
+                </div>
+                
+                <calcite-block heading="Display" class="calcite-block-fill" collapsible open>
+                  <calcite-icon slot="icon" icon="processing-templates" scale="s"></calcite-icon>
+                  <calcite-pick-list id="raster-functions-list" selection-follows-focus></calcite-pick-list>
+                </calcite-block>
+                <calcite-block heading="Classes" class="calcite-block-fill" collapsible>
+                  <calcite-icon slot="icon" icon="legend" scale="s"></calcite-icon>
+                  <div id="class-details-container">
+                    
+                    <calcite-tile
+                      heading="Water"
+                      description="Areas where water was predominantly present throughout the year; may not cover areas with sporadic or ephemeral water; contains little to no sparse vegetation, no rock outcrop nor built up features like docks; examples: rivers, ponds, lakes, oceans, flooded salt plains.">
+                      <div slot="content-start" data-class="Water"></div>
+                    </calcite-tile>
+                    
+                    <calcite-tile
+                      heading="Trees"
+                      description="Any significant clustering of tall (~15 feet or higher) dense vegetation, typically with a closed or dense canopy; examples: wooded vegetation,  clusters of dense tall vegetation within savannas, plantations, swamp or mangroves (dense/tall vegetation with ephemeral water or canopy too thick to detect water underneath).">
+                      <div slot="content-start" data-class="Trees"></div>
+                    </calcite-tile>
+                    
+                    <calcite-tile
+                      heading="Flooded Vegetation"
+                      description="Areas of any type of vegetation with obvious intermixing of water throughout a majority of the year; seasonally flooded area that is a mix of grass/shrub/trees/bare ground; examples: flooded mangroves, emergent vegetation, rice paddies and other heavily irrigated and inundated agriculture.">
+                      <div slot="content-start" data-class="Flooded Vegetation"></div>
+                    </calcite-tile>
+                    
+                    <calcite-tile
+                      heading="Crops"
+                      description="Human planted/plotted cereals, grasses, and crops not at tree height; examples: corn, wheat, soy, fallow plots of structured land.">
+                      <div slot="content-start" data-class="Crops"></div>
+                    </calcite-tile>
+                    
+                    <calcite-tile
+                      heading="Built Area"
+                      description="Human made structures; major road and rail networks; large homogenous impervious surfaces including parking structures, office buildings and residential housing; examples: houses, dense villages / towns / cities, paved roads, asphalt.">
+                      <div slot="content-start" data-class="Built Area"></div>
+                    </calcite-tile>
+                    
+                    <calcite-tile
+                      heading="Bare Ground"
+                      description="Areas of rock or soil with very sparse to no vegetation for the entire year; large areas of sand and deserts with no to little vegetation; examples: exposed rock or soil, desert and sand dunes, dry salt flats/pans, dried lake beds, mines.">
+                      <div slot="content-start" data-class="Bare Ground"></div>
+                    </calcite-tile>
+                    
+                    <calcite-tile
+                      heading="Snow/Ice"
+                      description="Large homogenous areas of permanent snow or ice, typically only in mountain areas or highest latitudes; examples: glaciers, permanent snowpack, snow fields.">
+                      <div slot="content-start" data-class="Snow/Ice"></div>
+                    </calcite-tile>
+                    
+                    <calcite-tile
+                      heading="Clouds"
+                      description="No land cover information due to persistent cloud cover.">
+                      <div slot="content-start" data-class="Clouds"></div>
+                    </calcite-tile>
+                    
+                    <calcite-tile
+                      heading="Rangeland"
+                      description="Open areas covered in homogenous grasses with little to no taller vegetation; wild cereals and grasses with no obvious human plotting (i.e., not a plotted field); examples: natural meadows and fields with sparse to no tree cover, open savanna with few to no trees, parks/golf courses/lawns, pastures. Mix of small clusters of plants or single plants dispersed on a landscape that shows exposed soil or rock; scrub-filled clearings within dense forests that are clearly not taller than trees; examples: moderate to sparse cover of bushes, shrubs and tufts of grass, savannas with very sparse grasses, trees or other plants.">
+                      <div slot="content-start" data-class="Rangeland"></div>
+                    </calcite-tile>
+                  
+                  </div>
+                </calcite-block>
+              
+              </calcite-tab>
+              
+              <calcite-tab tab="imagery" active>
+                
+                <div class="section-info">
+                  Multispectral and multitemporal atmospherically corrected
+                </div>
+                
+                <div class="margin-m">
+                  <div>Imagery closest to September 1<sup>st</sup></div>
+                </div>
+                
+                <calcite-list id="imagery-dates-list">
+                  <calcite-list-item id="imagery-date-start" non-interactive label="Start Date" description="imagery start date">
+                    <calcite-action slot="actions-start" icon="reverse-f" appearance="clear"></calcite-action>
+                    <calcite-action id="imagery-date-start-action" slot="actions-end"></calcite-action>
+                  </calcite-list-item>
+                  <calcite-pick-list-item id="imagery-date-end" non-interactive label="End Date" description="imagery end date">
+                    <calcite-action slot="actions-start" icon="forward-f" appearance="clear"></calcite-action>
+                    <calcite-action id="imagery-date-end-action" slot="actions-end"></calcite-action>
+                  </calcite-pick-list-item>
+                </calcite-list>
+              
+              </calcite-tab>
+            
+            </calcite-tabs>
+          
+          </div>
+        </calcite-panel>
+        
+        <calcite-panel heading="Analysis Location" class="toggle-panel" data-toggle="location" hidden>
+          <calcite-action slot="header-actions-start" icon="map-pin" scale="s"></calcite-action>
+          <div slot="header-actions-end">
+            <calcite-action icon="x" title="close panel" class="toggle-close" data-toggle="location"></calcite-action>
+          </div>
+          
+          <div class="margin-m">
+            <calcite-button id="analysis-location-btn" icon-start="pin-plus" appearance="outline" icon-end="blank" width="full" round>set analysis location</calcite-button>
+          </div>
+          <div id="coordinates-container" class="margin-l">
+            <calcite-label layout="inline">
+              <div>Longitude</div>
+              <calcite-input id="location-lon-input" icon="point" type="number" alignment="end" read-only></calcite-input>
+            </calcite-label>
+            <calcite-label layout="inline">
+              <div>Latitude</div>
+              <calcite-input id="location-lat-input" icon="point" type="number" alignment="end" read-only></calcite-input>
+            </calcite-label>
+            <calcite-list id="location-details-panel"></calcite-list>
+          </div>
+        
+        </calcite-panel>
+        
+        <calcite-panel heading="Places of Interest" class="toggle-panel" data-toggle="bookmarks" hidden>
+          <calcite-action slot="header-actions-start" icon="extent" scale="s"></calcite-action>
+          <div slot="header-actions-end">
+            <calcite-action icon="x" title="close panel" class="toggle-close" data-toggle="bookmarks"></calcite-action>
+          </div>
+          <div id="bookmarks-container"></div>
+        </calcite-panel>
+        
+        <calcite-panel heading="Urban Areas" class="toggle-panel" data-toggle="urban" hidden>
+          <calcite-action slot="header-actions-start" icon="urban-model" scale="s"></calcite-action>
+          <div slot="header-actions-end">
+            <calcite-action icon="x" title="close panel" class="toggle-close" data-toggle="urban"></calcite-action>
+          </div>
+          <div id="feature-list-urban-areas"></div>
+        </calcite-panel>
+      
+      </calcite-shell-panel>
+      
+      <!-- CENTER -->
+      <div id="center-container" class="content-col content-fill">
+        <calcite-panel id="time-slider-container"></calcite-panel>
+        <div id="view-container">
+          <calcite-loader id="view-updating" type="indeterminate" scale="s"></calcite-loader>
+        </div>
+      </div>
+      
+      <!-- RIGHT -->
+      <calcite-shell-panel slot="contextual-panel" position="end">
+        <calcite-panel heading="Land Cover Change Analysis">
+          <canvas id="chart-node"></canvas>
+        </calcite-panel>
+      </calcite-shell-panel>
+      
+      <!-- NOTICES ADN ALERTS -->
+      <calcite-notice id="app-notice" icon="" scale="m" width="auto" dismissible="" color="red">
+        <div slot="title"></div>
+        <div slot="message"></div>
+      </calcite-notice>
+    
+    </calcite-shell>
+    
+    <!-- LOADER -->
+    <calcite-loader id="app-loader" active="true" type="indeterminate" scale="l"></calcite-loader>
+    
+    <!-- APP DETAILS MODAL -->
+    <calcite-modal id="app-details-modal" color="blue" background-color="grey" scale="m" width="m" role="dialog" aria-labelledby="app-modal-title">
+      <h3 slot="header" id="app-modal-title" class="application-title"></h3>
+      <div slot="content" class="application-description"></div>
+      <div slot="secondary" class="margin-m">
+        <calcite-label layout="inline">
+          <span>hide on startup</span>
+          <calcite-checkbox id="hide-startup-checkbox"></calcite-checkbox>
+        </calcite-label>
+      </div>
+      <calcite-button id="app-details-ok-btn" slot="primary" width="full" hidden>OK</calcite-button>
+    </calcite-modal>
+  
+  </body>
+</html>

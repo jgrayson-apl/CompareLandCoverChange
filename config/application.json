@@ -1,0 +1,14 @@
+{
+  "title": "Compare Land Cover Change using Sentinel-2",
+  "description": "",
+  "portalUrl": "https://www.arcgis.com",
+  "oauthappid": "RjI3o42hIt2H5muM",
+  "authMode": "auto",
+  "apiKey": null,
+  "group": "",
+  "webmap": "e707efb1c9a840ec986d8540ca0b207f",
+  "webscene": "",
+  "container": "view-container",
+  "shareable": []
+}
+

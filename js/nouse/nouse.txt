@@ -1,0 +1,14 @@
+/*const className = info.y;
+         const max = 30;
+
+         if ((className.indexOf(' ') === -1) || (className.length < max)) {
+         return className;
+         } else {
+
+         const parts = className.split(' ');
+         const shortLabel = parts.reduce((label, part) => {
+         return ((label.length + part.length) < max) ? `${ label } ${ part }` : label;
+         }, '');
+
+         return `${ shortLabel } ...`;
+         }*/
