@@ -6,8 +6,8 @@ This application displays the land use/land cover (LULC) timeseries [layer](http
 
 > **Sources**: Impact Observatory, Microsoft, and Esri
 
-### Demo 
- - 
+### View it Live 
+ - [demo app](https://geoxc-apps2.bd.esri.com/LivingAtlas/CompareLandCoverChange/index.html)
 
 ### Technologies Used
 
