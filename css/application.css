@@ -8,8 +8,7 @@ html, body {
 }
 
 .calcite-theme-light,
-.calcite-theme-dark,
-.calcite-theme-app {
+.calcite-theme-dark {
   --calcite-ui-info: #bbed3b;
   --calcite-ui-icon-color: #96cc00;
   --calcite-ui-brand: #96cc00;
